@@ -10,11 +10,6 @@
 						{{item}}
 					</view>
 				</view>
-				<view class="length">
-					<view class="text">数量</view>
-					<!-- counter组件 -->
-					<counter :goodsInfo="goodsInfo"/>
-				</view>
 			</view>
 			<!-- 	确定按钮 -->
 			<view class="btn">
@@ -25,11 +20,7 @@
 </template>
 
 <script>
-	import counter from './counter.vue'
 	export default{
-		components:{
-			counter
-		},
 		methods:{
 			hideSpecifications(){
 				this.spaceInfo.showSpace = false;
@@ -121,20 +112,6 @@
 						border: solid 1upx #f47925;
 					}
 				}
-			}
-
-			.length {
-				margin-top: 30upx;
-				border-top: solid 1upx #aaa;
-				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				padding-top: 20upx;
-
-				.text {
-					font-size: 30upx;
-				}
-
 			}
 
 		}

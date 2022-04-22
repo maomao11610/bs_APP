@@ -24,7 +24,7 @@ module.exports = (params) =>{
 		header:header,
 		data:data,
 		success:res=>{
-			if(res.statusCode && res.statusCode !==200){
+			if((res.statusCode && res.statusCode !==200)||(res.status&&res.status!==0)){
 				uni.showModal({
 					content:res.msg
 				})

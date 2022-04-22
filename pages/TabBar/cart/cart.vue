@@ -21,14 +21,13 @@
 					<!-- 商品详情 -->
 					<view class="goods-info" @tap="handleGoodsInfo(item)">
 						<view class="img">
-							<image :src="item.img"></image>
+							<image :src="item.cover"></image>
 						</view>
 						<view class="info">
 							<view class="title">{{item.name}}</view>
 							<view class="spec">{{item.spec}}</view>
 							<view class="price-number">
 								<view class="price">￥{{item.price}}</view>
-								<counter :goodsInfo="item" @add="add(item)" @sub="sub(item)" />
 							</view>
 						</view>
 					</view>
@@ -56,11 +55,7 @@
 </template>
 
 <script>
-	import counter from '../../../components/counter.vue'
 	export default {
-		components: {
-			counter
-		},
 		data() {
 			return {
 				footerbottom: 0,

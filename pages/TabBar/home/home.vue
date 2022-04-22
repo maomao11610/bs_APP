@@ -19,9 +19,16 @@
 				</view>
 			</view>
 		</view>
-		<!-- 分类列表 -->
+		<view class="produce">
+			<!-- 公告 -->
+			<view> <text class="produce_red">公告</text>趣摩二手交易系统正式上线~</text></view>
+		</view>
+		<view class="produce_title">
+			品牌
+		</view>
+		<!-- 品牌 @tap="handleCategory(item)"-->
 		<view class="category-list">
-			<view @tap="handleCategory(item)" class="category" v-for="(item,index) in categoryList" :key="index">
+			<view  class="category" v-for="(item,index) in brandList" :key="index" @tap="handlebrand(item)">
 				<view class="img">
 					<image :src="item.img" mode=""></image>
 				</view>
@@ -30,15 +37,23 @@
 				</view>
 			</view>
 		</view>
-		<!-- 广告图 -->
-		<view v-if="promotion.length>0" class="banner">
-			<image src="../../../static/img/category/ad.jpg" mode=""></image>
+		<view class="produce_title">
+			价格
 		</view>
-		<!-- 活动区 -->
-		<view class="promotion" v-if="promotion.length>0">
-			<view class="text">优惠活动</view>
+		<!-- 价格选择区-->
+		<view v-if="promotion.length>0" class="banner">
+			<!-- <image src="../../../static/img/category/ad.jpg" mode=""></image> -->
+			<view class="price" v-for="(item,index) in priceList" :key='index' @tap="handlePrice(item)">
+				<view class="price_text">
+					{{item.name}}
+				</view>
+			</view>
+		</view>
+		<!-- 活动区 @tap="handlePromotion(item)"-->
+		<view class="promotion" v-if="promotion.length>0" >
+			<view class="text">推荐活动</view>
 			<view class="list">
-				<view @tap="handlePromotion(item)" class="column" v-for="(item,index) in promotion" :key="index">
+				<view  class="column" v-for="(item,index) in promotion" :key="index" @tap="handlePromotion(item)">
 					<view class="top">
 						<view class="title">{{item.title}}</view>
 					</view>
@@ -64,7 +79,8 @@
 		data(){
 			return{
 				swiperList:[],
-				categoryList:[],
+				brandList:[],
+				priceList:[],
 				promotion:[],
 				currentSwiper:0
 			}
@@ -82,11 +98,19 @@
 					icon:'none'
 				})
 			},
-			handleCategory(item){
-				//分类跳转
-				// console.log(item.name)
+			handlebrand(item){
+				// 按照品牌分别展示
+				 console.log(item.name)
 				uni.navigateTo({
-					url:"../../goods/goodsList?name="+item.name
+					// url:"../../goods/brandGoodsList?brand="+item.name
+				url:"../../brandProductList/brandProductList?brand="+item.name,
+				})
+			},
+			// 按价格分区
+			handlePrice(item){
+				console.log(item.name);
+				uni.navigateTo({
+					url:`../../priceProductList/priceProductList?name=${item.name}&min=${item.min}&max=${item.max}`
 				})
 			},
 			swiperChange(e){
@@ -94,11 +118,12 @@
 			},
 			initData(){
 				this.request({
-					url:interfaces.getMallData,
+					url:interfaces.getIndex,
 					success:((res)=>{
 						console.log(res);
 					this.swiperList = res.data.swiperList;
-					this.categoryList = res.data.categoryList;
+					this.brandList=res.data.brandList
+					this.priceList = res.data.priceList;
 					this.promotion = res.data.promotion;
 					
 					})
@@ -109,6 +134,12 @@
 </script>
 
 <style lang="scss">
+	.produce_title{
+		font-size: 30upx;
+		color: #0000ff;
+		font-family: '黑体';
+		margin: 0 2upx;
+	}
 	.swiper {
 		width: 100%;
 		margin-top: 10upx;
@@ -169,7 +200,6 @@
 		display: flex;
 		justify-content: space-between;
 		flex-wrap: wrap;
-	
 		.category {
 			width: 25%;
 			margin-top: 50upx;
@@ -197,16 +227,36 @@
 			}
 		}
 	}
-	
+	.produce{
+		font-size: 13px;
+		font-family:'华文行楷' ;
+		.produce_red{
+			padding: 0 10px;
+			color: red;
+		}
+	}
 	.banner {
 		width: 92%;
-		margin: 40upx 4%;
+		margin: 0 4%;
+		padding: 0 0 30upx 0;
+		border-bottom: solid 2upx #f6f6f6;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
 	
-		image {
-			width: 100%;
-			height: 36vw;
-			border-radius: 4upx;
-			box-shadow: 0upx 5upx 25upx rgba(0, 0, 0, 0.3);
+		.price {
+			width: 25%;
+			margin-top: 50upx;
+			display: flex;
+			flex-wrap: wrap;
+			.price_text {
+				margin-top: 16upx;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				font-size: 24upx;
+				color: #ff55ff;
+			}
 		}
 	}
 	

@@ -1,24 +1,27 @@
+
+<!-- 品牌点击后来到这个界面 -->
 <template>
 	<view>
 		<view class="header">
-			<view @tap="handleSelect(index)" class="target" v-for="(target,index) in filterByList" :key="index" :class="{'on':target.selected}">
-				{{target.text}}
-			</view>
+             <view class="top_text">
+             	全部车辆
+             </view>
 		</view>
 		<!-- 占位 tabbar 有定位 -->
 		<view class="place"></view>
 		<!-- 商品列表 -->
 		<view class="goods-list">
 			<view class="product-list">
-				<view class="product" @tap="handleGoods(goods)" v-for="goods in goodsList" :key="goods.goods_id">
-					<image mode="widthFix" :src="goods.img"></image>
-					<view class="name">{{goods.name}}}</view>
+				<!-- @tap="handleGoods(goods)" -->
+				<view class="product" @tap="handleGoods(goods)" v-for="goods in goodsList" :key="goods._id">
+					<image mode="widthFix" :src="goods.cover"></image>
+					<view class="name">{{goods.name}}</view>
 					<view class="info">
 						<view class="price">
 							<text>￥</text>
 							{{goods.price}}
 						</view>
-						<view class="slogan">{{goods.slogan}} <text>人付款</text></view>
+						<view class="slogan"> <text>行驶</text>{{goods.milleage}}<text>千里</text></view>
 					</view>
 				</view>
 			</view>
@@ -32,61 +35,29 @@
 	export default {
 		data() {
 			return {
+				brand:'',
 				goodsList: [], // 商品列表大数组
-				filterby: "all", // 默认选择的tab
-				page: 1,
-				size: 6,
 				loadingText: "正在加载....",
-				filterByList: [{
-						text: "全部",
-						selected: true,
-						filterby: "all"
-					},
-					{
-						text: "口碑",
-						selected: false,
-						filterby: "public"
-					},
-					{
-						text: "热门",
-						selected: false,
-						filterby: "hot"
-					}
-				]
 			}
 		},
 		methods: {
 			handleGoods(goods){
+				console.log(goods.name);
 				// 页面跳转 商品详情
 				uni.navigateTo({
-					url:'./goods?goodsInfo='+JSON.stringify(goods)
+					// url:'./goods?goodsInfo='+JSON.stringify(goods)
+					// url:'../goods/productDetail/productDetail?name='+goods.name
+					// https://host:port/path?xxx=aaa&ooo=bbb
+					url:`../goods/productDetail/productDetail?name=${goods.name}&price=${goods.price}`
 				})
-			},
-			handleSelect(index) {
-				this.filterByList[index].selected = true;
-
-				// 其他的selected false
-				for (let i = 0; i < this.filterByList.length; i++) {
-					if (i != index) {
-						this.filterByList[i].selected = false;
-					}
-				}
-				
-				// 数据请求
-				this.filterby = this.filterByList[index].filterby;
-				this.page = 1;
-				this.loadingText = "加载中...";
-				this.goodsList = [];
-				this.loadData();
 			},
 			loadData() {
 				this.request({
-					url: `${interfaces.getGoodsList}/${this.filterby}/${this.page}/${this.size}`,
+					url: interfaces.getBrandProduct,
+					data:{brand:this.brand},
 					success: ((res) => {
 						if(res.data.length > 0){
-							res.data.forEach(item => {
-								this.goodsList.push(item);
-							})
+							this.goodsList=res.data
 						}else{
 							this.loadingText = "我也是有底线的~";
 						}
@@ -94,11 +65,13 @@
 				})
 			}
 		},
+		// 下午完成详情整体接口到渲染
 		onLoad(option) {
+			this.brand=option.brand;
 			// console.log(option);
 			// 动态修改nav title
 			uni.setNavigationBarTitle({
-				title: option.name
+				title: option.brand
 			})
 
 			// 加载数据
@@ -106,7 +79,6 @@
 		},
 		onPullDownRefresh(){
 			setTimeout(() => {
-				this.page = 1;
 				this.loadingText = "加载中...";
 				this.goodsList = [];
 				this.loadData();
@@ -115,7 +87,6 @@
 		},
 		// 上啦加载
 		onReachBottom(){
-			this.page++;
 			this.loadData();
 		}
 	}
@@ -133,27 +104,11 @@
 		z-index: 10;
 		background-color: #fff;
 		border-bottom: solid 1upx #eee;
-
-		.target {
-			width: 20%;
+        .top_text{
 			height: 60upx;
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			font-size: 28upx;
-			margin-bottom: -2upx;
-			color: #aaa;
-
-			&.on {
-				color: #555;
-				border-bottom: 4upx solid #f06c7a;
-				font-weight: 600;
-				font-size: 30upx;
-			}
-
-			.icon {
-				font-size: 26upx;
-			}
 		}
 	}
 
@@ -216,7 +171,7 @@
 					}
 
 					.slogan {
-						color: #807c87;
+						color: #55ffff;
 						font-size: 24upx;
 					}
 				}

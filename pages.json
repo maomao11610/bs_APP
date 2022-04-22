@@ -11,9 +11,9 @@
 			}
 		},
 		{
-			"path": "pages/TabBar/category/category",
+			"path": "pages/TabBar/buyCar/buyCar",
 			"style": {
-				"navigationBarTitleText": "分类",
+				"navigationBarTitleText": "买车",
 				"app-plus": { // 取消默认的状态栏
 					"titleNView": false,
 					"bounce": "none"
@@ -21,54 +21,67 @@
 			}
 		},
 		{
-			"path": "pages/TabBar/cart/cart",
+			"path": "pages/TabBar/saleCar/saleCar",
 			"style": {
-				"navigationBarTitleText": "购物车"
-			}
-		},
-		{
-			"path": "pages/TabBar/user/user",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 0
-			}
-		},
-		
-		{
-			"path": "pages/goods/goodsList",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": true,
-				"onReach": 0
-			}
-		},
-		{
-			"path": "pages/goods/goods",
-			"style": {
-				"navigationBarTitleText": "商品",
-				"h5": {
-					"titleNView": false
-				},
-				"app-plus": {
+				"navigationBarTitleText": "卖车",
+				"app-plus": { // 取消默认的状态栏
 					"titleNView": false,
 					"bounce": "none"
 				}
 			}
 		},
 		{
-			"path": "pages/goods/ratings",
+			"path": "pages/TabBar/user/user",
 			"style": {
-				"navigationBarTitleText": "商品评论"
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 0
 			}
 		},
+		
 		{
 			"path": "pages/order/confirm",
 			"style": {
 				"navigationBarTitleText": "确定订单"
 			}
 		}
-	],
+        ,{
+            "path" : "pages/searchDetail/searchDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/brandProductList/brandProductList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/TabBar/buyCar/buyCar",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/TabBar/saleCar/saleCar",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -88,22 +101,22 @@
 				"text":"首页"
 			},
 			{
-				"pagePath":"pages/TabBar/category/category",
-				"iconPath":"static/tabbar_icon/category.png",
-				"selectedIconPath":"static/tabbar_icon/category_sel.png",
-				"text":"分类"
+				"pagePath":"pages/TabBar/buyCar/buyCar",
+				"iconPath":"static/tabbar_icon/buy.png",
+				"selectedIconPath":"static/tabbar_icon/buy_s.png",
+				"text":"买车"
 			},
 			{
-				"pagePath":"pages/TabBar/cart/cart",
-				"iconPath":"static/tabbar_icon/cart.png",
-				"selectedIconPath":"static/tabbar_icon/cart_sel.png",
-				"text":"购物车"
+				"pagePath":"pages/TabBar/saleCar/saleCar",
+				"iconPath":"static/tabbar_icon/sale.png",
+				"selectedIconPath":"static/tabbar_icon/sale_s.png",
+				"text":"卖车"
 			},
 			{
 				"pagePath":"pages/TabBar/user/user",
-				"iconPath":"static/tabbar_icon/mine.png",
-				"selectedIconPath":"static/tabbar_icon/mine_sel.png",
-				"text":"个人中心"
+				"iconPath":"static/tabbar_icon/my.png",
+				"selectedIconPath":"static/tabbar_icon/my_s.png",
+				"text":"我的"
 			}
 		]
 	}

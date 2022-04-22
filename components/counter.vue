@@ -1,13 +1,13 @@
 <template>
 	<view class="number">
 		<view class="sub" @tap.stop="sub">
-			<view class="icon iconfont">&#xe768;</view>
+			<view class="icon iconfont">&#xe636;</view>
 		</view>
 			<view class="input">
 				<input type="number" v-model="goodsInfo.number" />
 			</view>
 			<view class="add" @tap.stop="add">
-				<view class="icon iconfont">&#xe767;</view>
+				<view class="icon iconfont">&#xeb78;</view>
 			</view>
 		
 	</view>
