@@ -2,15 +2,15 @@
 	<view>
 		<!-- 购买商品列表 -->
 		<view class="buy-list">
-			<view class="row" v-for="(item,index) in goodsList" :key="index">
+			<view class="row" v-for="(item,index) in carList" :key="index">
 				<view class="goods-info">
 					<view class="img">
-						<image :src="item.img"></image>
+						<image :src="item.swiperList[0].img"></image>
 					</view>
 					<view class="info">
 						<view class="title">{{item.name}}</view>
 						<view class="price-number">
-							<view class="price">￥{{item.price * item.number}}</view>
+							<view class="price">￥{{item.price}}</view>
 						</view>
 					</view>
 				</view>
@@ -19,11 +19,11 @@
 		<!-- 商品金额 -->
 		<view class="detail">
 			<view class="row">
-				<view class="amount">商品金额</view>
+				<view class="amount">车辆实际拍卖价</view>
 				<view class="content">￥{{goodsPrice|toFixed}}</view>
 			</view>
 			<view class="row">
-				<view class="amount">运费</view>
+				<view class="amount">线下审核费用</view>
 				<view class="content">￥{{freight|toFixed}}</view>
 			</view>
 		</view>
@@ -44,10 +44,10 @@
 	export default {
 		data(){
 			return{
-				goodsList:[],
+				carList:[],
 				goodsPrice:0.0, //商品金额
 				sunPrice:0.0, //用户支付金额
-				freight:12.0 //运费
+				freight:200 //线下审核费用
 			}
 		},
 		onShow() {
@@ -55,9 +55,9 @@
 			uni.getStorage({
 				key:"confirmList",
 				success:res=>{
-					this.goodsList = res.data
-				for(let i=0;i<this.goodsList.length;i++){
-					this.goodsPrice = this.goodsPrice + (this.goodsList[i].number * this.goodsList[i].price);
+					this.carList = res.data
+				for(let i=0;i<this.carList.length;i++){
+					this.goodsPrice = this.goodsPrice + (this.carList[i].price);
 				}
 				// 用户支付的金额
 				this.sumPrice = this.goodsPrice + this.freight;
@@ -78,7 +78,7 @@
 				uni.removeStorage({
 					key:"confirmList",
 					success: (res) => {
-						this.goodsList = [];
+						this.carList = [];
 					}
 				})
 			},

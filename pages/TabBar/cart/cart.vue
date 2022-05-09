@@ -2,12 +2,12 @@
 	<view>
 		<!-- 购物列表 -->
 		<view class="goods-list">
-			<view class="empty" v-if="goodsList.length == 0">购物车空空如也~</view>
+			<view class="empty" v-if="goodsList.length == 0">收藏夹空空如也~</view>
 			<view class="row" v-for="(item,index) in goodsList" :key="index">
 				<!-- 删除按钮 -->
-				<view class="menu" @tap="handleSingleDelete(item)">
-					<view class="icon iconfont">&#xe6a6;</view>
-				</view>
+								<view class="menu" @tap="handleSingleDelete(item)">
+									<view class="icon iconfont">&#xe64d;</view>
+								</view>
 				<!-- 商品 -->
 				<view class="production" @touchstart="handleTouchStart(index,$event)" @touchmove="handleTouchMove(index,$event)"
 				 @touchend="handleTouchEnd(index,$event)" :class="[theIndex == index ? 'open' : oldIndex == index ? 'close' : '']">
@@ -21,11 +21,11 @@
 					<!-- 商品详情 -->
 					<view class="goods-info" @tap="handleGoodsInfo(item)">
 						<view class="img">
-							<image :src="item.cover"></image>
+							<image :src="item.swiperList[0].img"></image>
 						</view>
 						<view class="info">
 							<view class="title">{{item.name}}</view>
-							<view class="spec">{{item.spec}}</view>
+							<view class="spec">{{spec}}</view>
 							<view class="price-number">
 								<view class="price">￥{{item.price}}</view>
 							</view>
@@ -37,16 +37,8 @@
 
 		<!-- 底部菜单 -->
 		<view class="footer" :style="{bottom: footerbottom}">
-			<!-- checkbox -->
-			<view class="container" @tap="handleSelectedAll">
-				<view class="checkbox">
-					<view :class="{'on':isAllSelected}"></view>
-				</view>
-				<view class="text">全选</view>
-			</view>
-			<view class="delBtn" @tap="handleMulDelete" v-if="selectedList.length > 0">删除</view>
 			<view class="settlement">
-				<view class="sum">合计: <view class="money">￥{{sumPrice}}</view>
+				<view class="sum">总计: <view class="money">￥{{sumPrice}}</view>
 				</view>
 				<view class="btn" @tap="handleConfirm">结算{{selectedList.length}}</view>
 			</view>
@@ -64,21 +56,11 @@
 				goodsList: [],
 				selectedList:[],
 				isAllSelected: false,
-				sumPrice: '0.00'
+				sumPrice: '0.00',
+				spec:'检修'
 			}
 		},
 		methods: {
-			add(item){
-				item.number++;
-				this.sum();
-			},
-			sub(item){
-				if(item.number <= 1){
-					return;
-				}
-				item.number--;
-				this.sum();
-			},
 			handleCheckbox(item) { // 单选
 				// console.log(item);
 				item.selected = !item.selected;
@@ -92,28 +74,6 @@
 					this.selectedList.push(item);
 				}
 				
-				// 全选状态
-				if(this.selectedList.length == this.goodsList.length){
-					this.isAllSelected = true;
-				}else {
-					this.isAllSelected = false;
-				}
-				
-				this.sum();
-			},
-			handleSelectedAll(){ // 全选
-				this.isAllSelected = !this.isAllSelected;
-				
-				// 数据处理
-				let arr = [];
-				this.goodsList.forEach((item,i) => {
-					item.selected = this.isAllSelected;
-					arr.push(item);
-				})
-				
-			    this.selectedList =	this.isAllSelected ? arr : [];
-				
-				// 调用合计
 				this.sum();
 			},
 			sum(){// 合计
@@ -128,10 +88,10 @@
 			handleSingleDelete(item){
 				// 更新storage
 				uni.getStorage({
-					key:"goodsList",
+					key:"carList",
 					success: (res) => {
 						res.data.splice(res.data.indexOf(item),1);
-						uni.setStorageSync("goodsList",res.data);
+						uni.setStorageSync("carList",res.data);
 					}
 				})
 				
@@ -142,17 +102,6 @@
 				this.oldIndex = null;
 				this.theIndex = null;
 				
-				this.sum();
-			},
-			handleMulDelete(){
-				// 循环删除所有选中的商品
-				while(this.selectedList.length > 0){
-					this.handleSingleDelete(this.selectedList[0]);
-				}
-				
-				// 初始化数据
-				this.selectedList = [];
-				this.isAllSelected = false;
 				this.sum();
 			},
 			handleGoodsInfo(item) {
@@ -203,7 +152,7 @@
 			handleConfirm(){ // 结算
 				if(this.selectedList.length < 1){
 					uni.showToast({
-						title:"请选择结算的商品",
+						title:"请选择要购买的车辆",
 						icon:"none"
 					})
 					return;
@@ -215,7 +164,7 @@
 					data: this.selectedList,
 					success: () => {
 						uni.navigateTo({
-							url:"../../order/confirm"
+							url:'../../order/confirm'
 						})
 					}
 				})
@@ -223,12 +172,8 @@
 		},
 		onShow() {
 			uni.getStorage({
-				key: "goodsList",
+				key: "carList",
 				success: (res => {
-					// 将所有商品的选中状态都设置false
-					for (let i = 0; i < res.data.length; i++) {
-						res.data[i].selected = false;
-					}
 					this.goodsList = res.data;
 					
 					// 属性数据的初始化

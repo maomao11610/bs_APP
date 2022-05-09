@@ -2,14 +2,14 @@
 	<view>
 		<!-- 状态栏 -->
 		<page-status></page-status>
-	<view class="header">
+		<view class="header">
 			<view class="content">
-				<view  @tap="back" class="icon iconfont">&#xe64b;</view>
+				<view @tap="back" class="icon iconfont">&#xe64b;</view>
 			</view>
 			<view class="content">
 				<view @tap="showCart" class="icon iconfont">&#xe704;</view>
 			</view>
-	</view>
+		</view>
 		<!-- 轮播图 -->
 		<view class="swiper-box">
 			<swiper @change="swiperChange" circular="true" autoplay="true">
@@ -32,7 +32,8 @@
 				<view class="text">选择规格:</view>
 				<view class="content">
 					<view class="sp">
-						<view :class="{'on':item == goodsInfo.spec}" v-for="(item,index) in goodsData.spec" :key="index">
+						<view :class="{'on':item == goodsInfo.spec}" v-for="(item,index) in goodsData.spec"
+							:key="index">
 							{{item}}
 						</view>
 					</view>
@@ -44,8 +45,8 @@
 			</view>
 		</view>
 		<!-- 模态框 -->
-		<popupSpec  @setSelectSpec="setSelectSpec" @hideSpec="hideSpec" :goodsInfo="goodsInfo"
-			:goodsData="goodsData" :spaceInfo="spaceInfo" />
+		<popupSpec @setSelectSpec="setSelectSpec" @hideSpec="hideSpec" :goodsInfo="goodsInfo" :goodsData="goodsData"
+			:spaceInfo="spaceInfo" />
 		<!-- 综合等级 -->
 		<view class="archives">
 			<view class="list" v-for="item in goodsData.archives">
@@ -108,7 +109,7 @@
 					<view class="icon iconfont">&#xe63a;</view>
 					<view class="text">聊天</view>
 				</view>
-<!-- 				<view class="box" @tap="keep">
+				<!-- 				<view class="box" @tap="keep">
 					<view class="icon iconfont" v-if="isKeep">&#xe604;</view>
 					<view class="icon iconfont" v-else>&#xe704;</view>
 					<view class="text">{{isKeep?"已":''}}收藏</view>
@@ -127,7 +128,7 @@
 	import popupSpec from '../../components/popupSpec.vue'
 	import interfaces from '../../utils/interfaces.js'
 	export default {
-		components:{
+		components: {
 			popupSpec
 		},
 		data() {
@@ -140,6 +141,8 @@
 				currentSwiper: 0,
 				// loadingText: '',
 				goodsData: {
+					username: ''
+					name: '',
 					swiperList: [],
 					spec: [],
 					archives: [],
@@ -147,6 +150,7 @@
 					explain: [],
 					parameter: [],
 					realShooting: '',
+					price: 0,
 				},
 				name: '',
 				price: 0,
@@ -158,8 +162,8 @@
 		onLoad(option) {
 			this.name = option.name;
 			this.price = option.price;
+			this.goodsData.price = option.price;
 			const str = option.name;
-			console.log(name);
 			// 动态修改nav title
 			uni.setNavigationBarTitle({
 				title: str.slice(0, 4)
@@ -168,30 +172,21 @@
 			this.loadData();
 		},
 		methods: {
-			back(){
+			back() {
 				uni.navigateBack()
 			},
-			showCart(){
-				uni.switchTab({
-					url:"../../TabBar/cart/cart"
+			showCart() {
+				uni.navigateTo({
+					url: '../TabBar/cart/cart'
 				})
 			},
 			swiperChange(event) {
 				this.currentSwiper = event.detail.current;
 			},
-			// keep() {
-			// 	this.isKeep = !this.isKeep;
-			// 	if (this.isKeep) {
-			// 		uni.showToast({
-			// 			icon: "success",
-			// 			title: "已收藏"
-			// 		})
-			// 	}
-			// },
-			connect(){
+			connect() {
 				console.log('聊天')
 				uni.navigateTo({
-					url:'../contacts/contacts'
+					url: '../contacts/contacts'
 				})
 			},
 			setSelectSpec(item) {
@@ -202,62 +197,59 @@
 				this.spaceInfo.showSpace = false;
 			},
 			joinCart() {
-				// console.log(this.goodsInfo);
 
 				// 存储到本地存储里
 
 				// 1.先去本地存储中取
 				uni.getStorage({
-					key: "goodsList",
+					// 车辆列表，查询存不存在当前车
+					key: "carList",
 					success: (res => {
 						// 拿数据
-						let goodsList = res.data;
-
+						let carList = res.data;
 						// 查找商品是否存在
 						let isExist = false;
-
-						goodsList.forEach(goods => {
-							if (goods.goods_id == this.goodsInfo.goods_id && goods.spec == this
-								.goodsInfo.spec) {
+						carList.forEach(car => {
+							// 如果当前姓名存在那么就证明存在
+							if (car.name === this.name) {
 								isExist = true;
 							}
 						})
-
+						// 不存在
 						if (!isExist) {
-							goodsList.push(this.goodsInfo);
+							carList.push(this.goodsData);
 							// 更新本地存储
-							this.setGoodsList(goodsList);
+							this.setGoodsList(carList);
 						}
 
 
 					}),
 					fail: (err => { // 没有得到数据,那么就存
 						// console.log("加入失败")
-						let goodsList = [];
-						goodsList.push(this.goodsInfo);
-
+						let carList = [];
+						carList.push(this.goodsData);
 						// 往本地存储中存储数据
-						this.setGoodsList(goodsList);
+						this.setGoodsList(carList);
 					})
 				})
 			},
-			setGoodsList(goodsList) {
+			setGoodsList(carList) {
 				// console.log("存储到本地存储中")
 				// 存储到本地存储中
 				uni.setStorage({
-					key: "goodsList",
-					data: goodsList,
+					key: "carList",
+					data: carList,
 					success: function() {
 						uni.showToast({
-							icon: "success",
-							title: "添加购物车成功"
+							icon: 'success',
+							title: '添加购物车成功'
 						})
 					}
 				})
 			},
-			handleBuy() {
+			async handleBuy() {
 				let tempList = [];
-				tempList.push(this.goodsInfo);
+				tempList.push(this.goodsData);
 				uni.setStorage({
 					key: "confirmList",
 					data: tempList,
@@ -267,47 +259,77 @@
 						})
 					}
 				})
-			},
-			loadData() {
-				this.request({
-					url: interfaces.getDetail,
-					data: {
-						name: this.name
+				// 进行订单生成展现在后台		
+				// 发起接口请求
+				await this.request({
+						url: interfaces.setConfirm,
+						method: 'POST',
+						hideLoading: true,
+						data: {
+							transmissionCase: 1,
+							orderId: Math.random().toString(36).substr(2),
+							brand: this.name.splice(0, 2),
+							price: this.price,
+							sellerName: this.goodsData.username,
+							color: '黑色',
+							displacement: 5,
+							pic: this.goodsData.swiperList[0].img,
+							mileage: 500,
+							orderTime: Date.now(),
+							listingTime: Date.now(),
+						},
+						success: ((res) => {
+							uni.showToast({
+								icon: 'success',
+								title: '订单已生成，有问题请联系后台管理员'
+							})
+						})
+
 					},
-					success: ((res) => {
-						this.goodsData.spec = res.data.spec;
-						this.goodsData.explain = res.data.explain
-						this.goodsData.swiperList = res.data.swiperList;
-						this.goodsData.parameter=res.data.parameter;
-						this.goodsData.archives=res.data.archives;
-						this.goodsData.carCondition=res.data.carCondition;
-						this.goodsData.realShooting = res.data.realShooting;
-						console.log(res.data)
-					})
-				})
+					loadData() {
+						this.request({
+							url: interfaces.getDetail,
+							data: {
+								name: this.name
+							},
+							success: ((res) => {
+								this.goodsData.username = res.data.username;
+								this.goodsData.name = res.data.name;
+								this.goodsData.spec = res.data.spec;
+								this.goodsData.explain = res.data.explain
+								this.goodsData.swiperList = res.data.swiperList;
+								this.goodsData.parameter = res.data.parameter;
+								this.goodsData.archives = res.data.archives;
+								this.goodsData.carCondition = res.data.carCondition;
+								this.goodsData.realShooting = res.data.realShooting;
+							})
+						})
+					}
+				}
 			}
-		}
-	}
 </script>
 
 <style lang="scss">
-   .header{
-	   background-color: #aaffff;
-	   width: 100%;
-	   display: flex;
-	   justify-content: space-between;
-	   flex-wrap: wrap;
-	 .content{
-		 margin: 0 20upx;
-		 display: flex;
-		 .icon{
-			 font-size: 35upx;
-			 color: #fff;
-			 background-color: rgba(0, 0, 0, 0.2);
-			 border-radius: 100%;
-		 }
-	 }
-   }
+	.header {
+		background-color: #aaffff;
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+
+		.content {
+			margin: 0 20upx;
+			display: flex;
+
+			.icon {
+				font-size: 35upx;
+				color: #fff;
+				background-color: rgba(0, 0, 0, 0.2);
+				border-radius: 100%;
+			}
+		}
+	}
+
 	/*  修改状态栏样式 */
 	.status {
 		/* #ifdef APP-PLUS */
@@ -439,16 +461,19 @@
 		.list {
 			.content {
 				font-size: 20upx;
+
 				.title {
 					padding-left: 20upx;
 					font-size: 35upx;
 					color: #ff557f;
 				}
-				.result{
+
+				.result {
 					position: relative;
 					font-size: 16upx;
 					font-family: "楷体";
-					.icon{
+
+					.icon {
 						position: absolute;
 						top: 0;
 						right: 0;
@@ -475,7 +500,8 @@
 				color: #55ff7f;
 				font-family: "幼圆";
 				font-size: 30upx;
-				.value{
+
+				.value {
 					padding-left: 10upx;
 				}
 			}
@@ -483,6 +509,7 @@
 
 		}
 	}
+
 	.archives {
 		width: 92%;
 		margin: 30upx 4%;
@@ -504,11 +531,13 @@
 				font-size: 18upx;
 				text-align: center;
 				line-height: 90upx;
-				.grade{
+
+				.grade {
 					padding-left: 5upx;
 				}
-				.title{
-					color:#0086B3
+
+				.title {
+					color: #0086B3
 				}
 			}
 
@@ -662,5 +691,4 @@
 			}
 		}
 	}
-
 </style>

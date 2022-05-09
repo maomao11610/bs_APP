@@ -25,6 +25,8 @@ const interfaces = {
 	// 获得卖车进度
 	getCurrent:domain+"api/asale/current",
 	// 即时通讯获取系统sale列表
-	getUserData:domain+'api/alogin/getUserData'
+	getUserData:domain+'api/alogin/getUserData',
+	// 完成订单管理
+	setConfirm:domain+'api/aConfirm'
 }
 module.exports = interfaces;

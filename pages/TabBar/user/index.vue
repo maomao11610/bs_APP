@@ -76,8 +76,8 @@
 							name:'收藏夹'
 						},
 						{
-							img:'/static/img/buyer/3.png',
-							name:'已购买'
+							img:'/static/img/buyer/location.png',
+							name:'地址'
 						},
 						{
 							img:'/static/img/buyer/4.png',
@@ -98,7 +98,15 @@
 		},
 		logout(){
 			// 退出登录
-			removeToken();
+			// removeToken();
+			// currentUser//直接清楚掉本地存储对应的key
+			uni.removeStorage({ //从本地删除指定key
+			    key: 'currentUser',//key
+			    success: function (res) {//删除成功的回调
+			        console.log('success');
+			    }
+			});
+			
 			
 		},
 		register(){

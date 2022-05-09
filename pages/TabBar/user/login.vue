@@ -27,7 +27,8 @@
 		data() {
 			return {
 				username: '',
-				password: ''
+				password: '',
+				isShow:true,
 			}
 		},
 		methods: {
@@ -40,31 +41,8 @@
 				this.password = event.target.value;
 				console.log(event.detail.value)
 			},
-			// async login() {
-			//     	let pages = getCurrentPages();  //获取跳转的所有页面
-			// 		let nowPage = pages[ pages.length - 1]; //当前页
-			// 		let prevPage = pages[ pages.length - 2 ]; //上一页
-			// 		prevPage.$vm //上一页的this
-			// 		prevPage.$vm.username = this.username; //这个时候上一级页面的id就是123456789
-			// 		prevPage.$vm.isShow=false;
-			// 	if (this.username.trim() !== '' && this.password.trim() !== '') {
-			// 		let user = restApi.findUser(this.username, this.password);
-			// 		if(user){
-			// 			uni.setStorageSync('currentUser', user);
-			// 			uni.navigateBack({
-			// 				    delta: 1
-			// 				}); //这个是返回上级第一个页面， delta等于2的时候跳过上个页面返回再上一个页面
-			// 			return;
-			// 		// await	setToken('111111')
-
-			// 		}
-
-			// 	}
-			// 	// this.showError = true;
-
-			// },
 			async login() {
-
+              this.isShow=false;
 				if (this.username.trim() !== '' && this.password.trim() !== '') {
 					let user = restApi.findUser(this.username, this.password);
 					if (user) {
@@ -73,7 +51,7 @@
 							url: './index'
 						})
 						uni.setStorageSync('username', this.username);
-						uni.setStorageSync('isShow', false);
+					    uni.setStorageSync('isShow', this.isShow);
 						return;
 					}
 					await setToken('1111')
