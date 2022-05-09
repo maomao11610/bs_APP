@@ -15,11 +15,13 @@
 
 			<!-- 提示信息 -->
 			<view class="icon-btn">
-				<view class="icon iconfont">&#xe711;</view>
+				<view class="icon iconfont" @click="showInformation">&#xe711;</view>
 			</view>
 		</view>
 		<!-- 占位 -->
 		<view class="place"></view>
+		<!-- 消息Modal -->
+		<u-modal :show="show" :title="title" :content='content' @confirm="confirm" ref="uModal" :asyncClose="true"></u-modal>
 	</view>
 </template>
 
@@ -31,6 +33,9 @@
 				// mapUrl: 'https://apis.map.qq.com',
 				//            mapKey: 'KRIBZ-KJVCD-74D4D-PON6M-UFGU6-A2FON',
 				city: "",
+				show:false,
+				content:'您的发布审核已通过，尽快提交线下审核内容',
+				title:'发布进度提示'
 			}
 		},
 		onLoad() {
@@ -47,12 +52,18 @@
 					}
 				});
 			},
+			showInformation(){
+				this.show=true;
+			},
+			confirm(){
+				this.show=false
+			},
 			getCity(latitude, longitude) {
 				// 根据经纬度获取城市
 				let that = this;
 				that.$jsonp("https://apis.map.qq.com/ws/geocoder/v1/", {
-						key: "KRIBZ-KJVCD-74D4D-PON6M-UFGU6-A2FON", // 腾讯地图申请的key uniapp 推荐使用腾讯地图
-						callbackName: "getJsonData",
+						key: "KRIBZ-KJVCD-74D4D-PON6M-UFGU6-A2FON", // 腾讯地图
+						// callbackName: "getJsonData",
 						output: 'jsonp',
 						location: latitude + "," + longitude
 					})

@@ -9,7 +9,6 @@
 					</view>
 					<view class="info">
 						<view class="title">{{item.name}}</view>
-						<view class="spec">选择: {{item.spec}} 数量: {{item.number}}</view>
 						<view class="price-number">
 							<view class="price">￥{{item.price * item.number}}</view>
 						</view>
@@ -35,7 +34,7 @@
 			<view class="settlement">
 				<view class="sum">合计: <view class="money">￥{{sumPrice | toFixed}}</view>
 				</view>
-				<view class="btn">提交订单</view>
+				<view class="btn" @click="easy">提交订单</view>
 			</view>
 		</view>
 	</view>
@@ -82,6 +81,10 @@
 						this.goodsList = [];
 					}
 				})
+			},
+			easy(){
+				//发起接口完成支付
+				
 			}
 		}
 	}

@@ -34,15 +34,6 @@
 			}
 		},
 		{
-			"path": "pages/TabBar/user/user",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 0
-			}
-		},
-		
-		{
 			"path": "pages/order/confirm",
 			"style": {
 				"navigationBarTitleText": "确定订单"
@@ -66,7 +57,16 @@
             }
             
         }
-        ,{
+		,{
+		    "path" : "pages/priceProductList/priceProductList",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
             "path" : "pages/TabBar/buyCar/buyCar",
             "style" :                                                                                    
             {
@@ -83,7 +83,106 @@
                 "enablePullDownRefresh": false
             }
             
-        }
+        },
+		{
+		    "path" : "pages/productDetail/productDetail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/TabBar/user/login",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "登录",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/TabBar/user/register",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "注册",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/TabBar/user/index",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/chat/groupChat/groupChat",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/chat/groupChat/member",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/chat/privateChat/privateChat",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/contacts/contacts",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+	{
+		    "path" : "pages/conversations/conversations",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/mine/mine",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/TabBar/cart/cart",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "我的购物车",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -116,7 +215,13 @@
 				"text":"卖车"
 			},
 			{
-				"pagePath":"pages/TabBar/user/user",
+				"pagePath":"pages/conversations/conversations",
+				"iconPath":"static/tabbar_icon/conversiton.png",
+				"selectedIconPath":"static/tabbar_icon/conversiton1.png",
+				"text":"聊天"
+			},
+			{
+				"pagePath":"pages/TabBar/user/index",
 				"iconPath":"static/tabbar_icon/my.png",
 				"selectedIconPath":"static/tabbar_icon/my_s.png",
 				"text":"我的"

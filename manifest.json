@@ -88,4 +88,20 @@
             }
         }
     }
+
+			// "devServer": {
+			// 	"proxy": {
+			// 		"/api": {
+			// 			"target": "http://localhost:5000",
+			// 			"changeOrigin": true,
+			// 			"secure": false,
+			// 			"pathRewrite": {
+			// 				"^/api": "" // 设置/api路径重定向，重点！！！
+			// 			}
+			// 		}
+			// 	}
+			// }
+			
+		
+
 }

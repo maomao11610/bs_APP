@@ -1,17 +1,30 @@
-const domain = "https://uniapp-interface.herokuapp.com/";
+//const domain = "https://f09d-111-20-192-217.jp.ngrok.io/";
+const domain='http://localhost:5000/'
 const interfaces = {
-	getSearch: 'http://localhost:5000/' + "api/aproduct/search",
+	getSearch: domain + "api/aproduct/search",
 	// 首页信息自我接口
-	getIndex:'http://localhost:5000/' + "api/aindex",
+	getIndex:domain + "api/aindex",
 	// 首页品牌跳转
-	getBrandProduct:'http://localhost:5000/' + "api/aproduct/brandSearch",
+	getBrandProduct:domain + "api/aproduct/brandSearch",
 	// 首页价格跳转
-	getPriceProduct:'http://localhost:5000/' + "api/aproduct/priceSearch",
+	getPriceProduct:domain + "api/aproduct/priceSearch",
 	// 拿到商品获取对应的详情
-	getDetail:'http://localhost:5000/'+"api/aproduct/detail",
+	getDetail:domain+"api/aproduct/detail",
 	// 提交卖车申请
-	applySaleCar:'http://localhost:5000/'+"api/asale/apply",
+	applySaleCar:domain+"api/asale/apply",
 	// 提交线下审核内容
-	setContent:'http://localhost:5000/'+"api/asale/setContet",
+	setContent:domain+"api/asale/setContet",
+	// 全部
+	getAllProduct:domain+"api/aproduct/all",
+	// 筛选级联
+	getSelectProduct:domain+"api/aproduct/select",
+	// APP登录接口
+	// login:domain+"api/alogin",
+	// APP注册接口
+	register:domain+"api/aregister",
+	// 获得卖车进度
+	getCurrent:domain+"api/asale/current",
+	// 即时通讯获取系统sale列表
+	getUserData:domain+'api/alogin/getUserData'
 }
 module.exports = interfaces;

@@ -100,7 +100,7 @@
 			},
 			handlebrand(item){
 				// 按照品牌分别展示
-				 console.log(item.name)
+			
 				uni.navigateTo({
 					// url:"../../goods/brandGoodsList?brand="+item.name
 				url:"../../brandProductList/brandProductList?brand="+item.name,
@@ -108,9 +108,8 @@
 			},
 			// 按价格分区
 			handlePrice(item){
-				console.log(item.name);
 				uni.navigateTo({
-					url:`../../priceProductList/priceProductList?name=${item.name}&min=${item.min}&max=${item.max}`
+					 url:`../../priceProductList/priceProductList?name=${item.name}&min=${item.min}&max=${item.max}`
 				})
 			},
 			swiperChange(e){
@@ -120,7 +119,6 @@
 				this.request({
 					url:interfaces.getIndex,
 					success:((res)=>{
-						console.log(res);
 					this.swiperList = res.data.swiperList;
 					this.brandList=res.data.brandList
 					this.priceList = res.data.priceList;

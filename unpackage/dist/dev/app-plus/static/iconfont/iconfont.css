@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3160881 */
-src: url('~@/static/iconfont/iconfont.ttf');  
+  src: url('~@/static/iconfont/iconfont.ttf');
 }
 
 .iconfont {
@@ -9,6 +9,22 @@ src: url('~@/static/iconfont/iconfont.ttf');
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-liaotian:before {
+  content: "\e637";
+}
+
+.icon-liaotian1:before {
+  content: "\e63a";
+}
+
+.icon-IMliaotian:before {
+  content: "\e6ff";
+}
+
+.icon-liaotian2:before {
+  content: "\e663";
 }
 
 .icon-jian:before {

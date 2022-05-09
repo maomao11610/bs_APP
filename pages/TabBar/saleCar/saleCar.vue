@@ -46,9 +46,9 @@
 				 节点到达生成交易请前往个人中心查询订单并进行交易
 			</view>
 			<u-steps :current="current">
-				<u-steps-item title="提交申请" desc="10:30"></u-steps-item>
-				<u-steps-item title="线下审核" desc="10:35"></u-steps-item>
-				<u-steps-item title="生成交易" desc="11:40"></u-steps-item>
+				<u-steps-item title="提交申请" desc="first"></u-steps-item>
+				<u-steps-item title="线下审核" desc="second"></u-steps-item>
+				<u-steps-item title="生成交易" desc="last"></u-steps-item>
 			</u-steps>
 		</view>
 		<!-- 进度 -->
@@ -152,6 +152,7 @@
 					success: ((res) => {
 						// 提价成功来到后台进行审核员分配，然后节点来到线下审核
 						this.current = 1;
+						// 最好调用接口完成数据库更新到个人中心
 					})
 				})
 				this.show = false;

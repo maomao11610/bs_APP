@@ -47,10 +47,7 @@
 				console.log(goods.name);
 				// 页面跳转 商品详情
 				uni.navigateTo({
-					// url:'./goods?goodsInfo='+JSON.stringify(goods)
-					// url:'../goods/productDetail/productDetail?name='+goods.name
-					// https://host:port/path?xxx=aaa&ooo=bbb
-					url:`../goods/productDetail/productDetail?name=${goods.name}&price=${goods.price}`
+					url:`../productDetail/productDetail?name=${goods.name}&price=${goods.price}`
 				})
 			},
 			loadData() {
@@ -67,7 +64,6 @@
 				})
 			}
 		},
-		// 下午完成详情整体接口到渲染
 		onLoad(option) {
 			this.name=option.name;
 			this.min=option.min;
