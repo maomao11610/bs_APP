@@ -105,15 +105,10 @@
 					<view class="icon iconfont">&#xe602;</view>
 					<view class="text">分享</view>
 				</view>
-				<view class="box" @tap="connect">
+				<view class="box" @tap="enterChat">
 					<view class="icon iconfont">&#xe63a;</view>
 					<view class="text">聊天</view>
 				</view>
-				<!-- 				<view class="box" @tap="keep">
-					<view class="icon iconfont" v-if="isKeep">&#xe604;</view>
-					<view class="icon iconfont" v-else>&#xe704;</view>
-					<view class="text">{{isKeep?"已":''}}收藏</view>
-				</view> -->
 			</view>
 			<view class="btn">
 				<view @tap="joinCart" class="joinCart">加入收藏夹</view>
@@ -141,7 +136,8 @@
 				currentSwiper: 0,
 				// loadingText: '',
 				goodsData: {
-					username: ''
+					uuid:'',
+					username: '',
 					name: '',
 					swiperList: [],
 					spec: [],
@@ -187,6 +183,12 @@
 				console.log('聊天')
 				uni.navigateTo({
 					url: '../contacts/contacts'
+				})
+			},
+			enterChat () {//进入聊天页面
+				let path = '../chat/privateChat/privateChat?to=' + this.goodsData.uuid;
+				uni.navigateTo({
+					url: path
 				})
 			},
 			setSelectSpec(item) {
@@ -262,51 +264,53 @@
 				// 进行订单生成展现在后台		
 				// 发起接口请求
 				await this.request({
-						url: interfaces.setConfirm,
-						method: 'POST',
-						hideLoading: true,
-						data: {
-							transmissionCase: 1,
-							orderId: Math.random().toString(36).substr(2),
-							brand: this.name.splice(0, 2),
-							price: this.price,
-							sellerName: this.goodsData.username,
-							color: '黑色',
-							displacement: 5,
-							pic: this.goodsData.swiperList[0].img,
-							mileage: 500,
-							orderTime: Date.now(),
-							listingTime: Date.now(),
-						},
-						success: ((res) => {
-							uni.showToast({
-								icon: 'success',
-								title: '订单已生成，有问题请联系后台管理员'
-							})
-						})
-
+					url: interfaces.setConfirm,
+					method: 'POST',
+					hideLoading: true,
+					data: {
+						transmissionCase: 1,
+						orderId: Math.random().toString(36).substr(2),
+						brand: this.name.splice(0, 2),
+						price: this.price,
+						sellerName: this.goodsData.username,
+						color: '黑色',
+						displacement: 5,
+						pic: this.goodsData.swiperList[0].img,
+						mileage: 500,
+						orderTime: Date.now(),
+						listingTime: Date.now(),
 					},
-					loadData() {
-						this.request({
-							url: interfaces.getDetail,
-							data: {
-								name: this.name
-							},
-							success: ((res) => {
-								this.goodsData.username = res.data.username;
-								this.goodsData.name = res.data.name;
-								this.goodsData.spec = res.data.spec;
-								this.goodsData.explain = res.data.explain
-								this.goodsData.swiperList = res.data.swiperList;
-								this.goodsData.parameter = res.data.parameter;
-								this.goodsData.archives = res.data.archives;
-								this.goodsData.carCondition = res.data.carCondition;
-								this.goodsData.realShooting = res.data.realShooting;
-							})
+					success: ((res) => {
+						uni.showToast({
+							icon: 'success',
+							title: '订单已生成，有问题请联系后台管理员'
 						})
-					}
-				}
-			}
+					})
+
+				})
+			},
+			loadData() {
+				this.request({
+					url: interfaces.getDetail,
+					data: {
+						name: this.name
+					},
+					success: ((res) => {
+						this.goodsData.uuid=res.data.uuid;
+						this.goodsData.username = res.data.username;
+						this.goodsData.name = res.data.name;
+						this.goodsData.spec = res.data.spec;
+						this.goodsData.explain = res.data.explain
+						this.goodsData.swiperList = res.data.swiperList;
+						this.goodsData.parameter = res.data.parameter;
+						this.goodsData.archives = res.data.archives;
+						this.goodsData.carCondition = res.data.carCondition;
+						this.goodsData.realShooting = res.data.realShooting;
+					})
+				})
+			},
+		}
+		}
 </script>
 
 <style lang="scss">
